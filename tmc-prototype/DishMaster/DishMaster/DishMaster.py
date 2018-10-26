@@ -43,22 +43,69 @@ class DishMaster(SKAMaster):
     # Logic to implement pointing behavior - in progress
     def point(self):
         print('Point function invoked at :-> ', time.time())
+        '''
         self._achieved_pointing = self._desired_pointing
         self._pointing_state = 0
-
-    '''    
+        '''
         #self.pointThread = threading.Thread(None, self.test(), 'DishMaster')
         
-        if ((self._achieved_pointing[1] != self._desired_pointing[1]) & (self._achieved_pointing[2] != self._desired_pointing[2])):
-            print time.time()
-            self._pointing_state = 0
-            self._achieved_pointing = self._desired_pointing
+        if ((self._achieved_pointing[1] != self._desired_pointing[1]) | (self._achieved_pointing[2] != self._desired_pointing[2])):
+            self.azimuthThread = threading.Thread(None, self.azimuth, 'DishMaster')
+            self.elevationThread = threading.Thread(None, self.elevation, 'DishMaster')
+            self.azimuthThread.start()
+            self.elevationThread.start()
+            #self._pointing_state = 0
+            #self._achieved_pointing = self._desired_pointing
             print "pointing is successful"
+            self._pointing_state = 1
 
+    def azimuth(self):
+        self._pointing_state = 1
+        print "in Azimuth Thread"
+        self._azimuth_difference = self._desired_pointing[1] - self._achieved_pointing[1]
+        print self._azimuth_difference
+        if self._azimuth_difference > 0.0:
+            print "in azimuth if"
+            self.increment_position([1,self._azimuth_difference])
+        elif self._azimuth_difference < 0.0:
+            self.decrement_position([1,abs(self._azimuth_difference)])
+        else:
+            pass
 
-    def test(self):
-        self._achieved_pointing[0] = time.time()
-    '''
+    def elevation(self):
+        self._pointing_state = 1
+        print "in Elevation Thread"
+        self._elevation_difference = self._desired_pointing[2] - self._achieved_pointing[2]
+        print self._elevation_difference
+        if self._elevation_difference > 0.0:
+            print "in elevation if"
+            self.increment_position([2,self._elevation_difference])
+        elif self._elevation_difference < 0.0:
+            self.decrement_position([2,abs(self._elevation_difference)])
+        else:
+            pass
+
+    def increment_position(self,argin):
+        print "in Increment Position"
+        print argin[0]
+        print argin[1]
+        for position in range(0,int(argin[1])):
+            self._pointing_state = 1
+            print "in Increment Position"
+            time.sleep(2)
+            print ("Position is: %d %d" %(argin[0], self._achieved_pointing[argin[0]]))
+            self._achieved_pointing[argin[0]] = self._achieved_pointing[argin[0]] + 1
+        self._pointing_state = 0
+
+    def decrement_position(self,argin):
+        for position in range(0, int(argin[1])):
+            self._pointing_state = 1
+            print "in Decrement Position"
+            time.sleep(2)
+            print ("Position is: %d %d" % (argin[0], self._achieved_pointing[argin[0]]))
+            self._achieved_pointing[argin[0]] = self._achieved_pointing[argin[0]] - 1
+        self._pointing_state = 0
+
     # PROTECTED REGION END #    //  DishMaster.class_variable
 
     # -----------------
@@ -160,9 +207,11 @@ class DishMaster(SKAMaster):
 
     def init_device(self):
         SKAMaster.init_device(self)
+        self.set_change_event("capturing", True, False)
+        self.set_archive_event("capturing", True, False)
         # PROTECTED REGION ID(DishMaster.init_device) ENABLED START #
         self._dish_mode = 3
-        self._pointing_state = 1
+        self._pointing_state = 0
         self._band1_sampler_frequency = 0
         self._band2_sampler_frequency = 0
         self._band3_sampler_frequency = 0
@@ -170,15 +219,21 @@ class DishMaster(SKAMaster):
         self._band5a_sampler_frequency = 0
         self._band5b_sampler_frequency = 0
         self._capturing = False
-        self._desired_pointing = [10.0,20.0,40.0]
+        self._desired_pointing = [0.0,20.0,40.0]
         self._achieved_pointing = [0.0,0.0,0.0]
+        self._elevation_difference = 0
+        self._azimuth_difference = 0
         self.set_state(PyTango.DevState.STANDBY)
 
-        #Scan command
+        #Point command
         self._current_time = 0
-        self._execution_time = 0
-        self._delta_t = 0
-        self._secs = 0
+        self._point_execution_time = 0
+        self._point_delta_t = 0
+
+        # Scan command
+        self._scan_execution_time = 0
+        self._scan_delta_t = 0
+
         # PROTECTED REGION END #    //  DishMaster.init_device
 
     def always_executed_hook(self):
@@ -255,22 +310,21 @@ class DishMaster(SKAMaster):
         # PROTECTED REGION ID(DishMaster.desiredPointing_write) ENABLED START #
         self._desired_pointing = value
 
-        '''
         # Execute POINT command at given timestamp
         self._current_time = time.time()
         print self._current_time
         # self.y = self.x.replace(day= self.x.day + 0, hour=0, minute=1, second=0, microsecond=0)
-        self._execution_time = self._desired_pointing[0]
-        print self._execution_time
-        self.delta_t = self._execution_time - self._current_time
-        print self._delta_t
+        self._point_execution_time = self._desired_pointing[0]
+        print self._point_execution_time
+        self._point_delta_t = self._point_execution_time - self._current_time
+        print self._point_delta_t
         # self.secs = self.delta_t.seconds + 1
-        t = Timer(self._delta_t, self.point())
-        print "started timer to execute command"
+        t = Timer(self._point_delta_t, self.point)
+        print "started timer to execute POINT command"
         t.start()
-        print "command is executed"
+        print "POINT command is executed"
         pass
-        '''
+
         # PROTECTED REGION END #    //  DishMaster.desiredPointing_write
 
     def read_achievedPointing(self):
@@ -353,19 +407,22 @@ class DishMaster(SKAMaster):
     @DebugIt()
     def Scan(self, argin):
         # PROTECTED REGION ID(DishMaster.Scan) ENABLED START #
-        print argin
-        self._current_time = time.time()
-        print self._current_time
-        # self.y = self.x.replace(day= self.x.day + 0, hour=0, minute=1, second=0, microsecond=0)
-        self._execution_time = float(argin)
-        print self._execution_time
-        self._delta_t = self._execution_time - self._current_time
-        print self._delta_t
-        # self.secs = self.delta_t.seconds + 1
-        t = Timer(self._delta_t, self.point)
-        print "started timer to execute command"
-        t.start()
-        print "command is executed"
+        if (self._pointing_state == 0):
+            self._current_time = time.time()
+            print self._current_time
+            # self.y = self.x.replace(day= self.x.day + 0, hour=0, minute=1, second=0, microsecond=0)
+            self._scan_execution_time = float(argin)
+            print self._scan_execution_time
+            self._scan_delta_t = self._scan_execution_time - self._current_time
+            print self._scan_delta_t
+            # self.secs = self.delta_t.seconds + 1
+            t1 = Timer(self._scan_delta_t, self.StartCapture)
+            print "started timer to execute SCAN command"
+            t1.start()
+            print "SCAN command is executed"
+        else:
+            print "Dish Pointing State is not READY"
+
         pass
         # PROTECTED REGION END #    //  DishMaster.Scan
 
@@ -379,9 +436,10 @@ class DishMaster(SKAMaster):
     doc_in="The timestamp indicates the time, in UTC, at which command execution should start.", 
     )
     @DebugIt()
-    def StartCapture(self, argin):
+    def StartCapture(self, argin=0):
         # PROTECTED REGION ID(DishMaster.StartCapture) ENABLED START #
         self._capturing = True
+        self._pointing_state = 3
         pass
         # PROTECTED REGION END #    //  DishMaster.StartCapture
 
@@ -395,9 +453,10 @@ class DishMaster(SKAMaster):
     doc_in="The timestamp indicates the time, in UTC, at which command execution should start.", 
     )
     @DebugIt()
-    def StopCapture(self, argin):
+    def StopCapture(self, argin=0):
         # PROTECTED REGION ID(DishMaster.StopCapture) ENABLED START #
         self._capturing = False
+        self._pointing_state = 0
         pass
         # PROTECTED REGION END #    //  DishMaster.StopCapture
 
