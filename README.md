@@ -5,11 +5,11 @@ This is the repository for TMC evolutionary prototype. The prototype aims to rea
 The design for the  TMC prototype (Stage I) is targeting the following functionality and architectural aspects:
 ### Functionality
 * [ ] Monitoring and control functionality with hierarchy of nodes
-* [ ] Alarm detection and handling 
 * [x] LMC simulator for Dish
 * [ ] Subarray creation using static configuration 
 * [x] Command and response mechanism
 * [x] Group command 
+* [ ] Alarm detection and handling 
 ### Architecture
 * [ ] Hierarchy of control nodes - Central node, Subarray node, Leaf Node
 * [x] Interface between the TMC and Element LMC
