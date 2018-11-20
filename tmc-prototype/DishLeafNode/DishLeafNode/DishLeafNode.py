@@ -25,6 +25,7 @@ from SKABaseDevice import SKABaseDevice
 # Additional import
 # PROTECTED REGION ID(DishLeafNode.additionnal_import) ENABLED START #
 from tango import DeviceProxy, DevState, EventType, utils, DeviceData, ApiUtil
+from tango.server import attribute
 import traceback
 
 
@@ -99,19 +100,17 @@ class DishLeafNode(SKABaseDevice):
 
             if (evt.err==False):
                 try:
-                    self._dish_health_state = evt.attr_value.value
-                    if(self._dish_health_state == 0):
-                        print "Dish Health state :-> ON-LINE"
-                    elif (self._dish_health_state == 1):
-                        print "Dish Health state :-> OFF-LINE"
-                    elif (self._dish_health_state == 2):
-                        print "Dish Health state :-> MAINTENANCE"
-                    elif (self._dish_health_state == 3):
-                        print "Dish Health state :-> NOT-FITTED"
-                    elif (self._dish_health_state == 4):
-                        print "Dish Health state :-> RESERVED"
+                    self._health_state_dish = evt.attr_value.value
+                    if(self._health_state_dish == 0):
+                        print "Dish Health state :-> OK"
+                    elif (self._health_state_dish == 1):
+                        print "Dish Health state :-> DEGRADED"
+                    elif (self._health_state_dish == 2):
+                        print "Dish Health state :-> FAILED"
+                    elif (self._health_state_dish == 3):
+                        print "Dish Health state :-> UNKNOWN"
                     else:
-                        print "Dish Health state :-> UNKNOWN!\n", evt
+                        print "Error: Dish Health state :-> ", self._health_state_dish, "\n", evt
                 except Exception as e:
                     print "Unexpected error in DishHealthStateCallback!\n", e.message
             else:
@@ -165,11 +164,11 @@ class DishLeafNode(SKABaseDevice):
         def cmd_ended (self, event):
             try:
                 if event.err:
-                    print "Error in executing command:", event.cmd_name
+                    print "Error in invoking command:", event.cmd_name
                     error = PyTango.DevFailed(*event.errors)
                     PyTango.Except.print_exception(error)
                 else:
-                    print "Command :->", event.cmd_name, "executed successfully."
+                    print "Command :->", event.cmd_name, "invoked successfully."
             except:
                 print "Exception in CommandCallback!:"
                 traceback.print_exc()
@@ -207,6 +206,9 @@ class DishLeafNode(SKABaseDevice):
 
 
 
+    dishHealthState = attribute(name="dishHealthState", label="dishHealthState",
+        forwarded=True
+    )
     # ---------------
     # General methods
     # ---------------
@@ -244,7 +246,7 @@ class DishLeafNode(SKABaseDevice):
         try:
             self._dish_proxy.subscribe_event("dishMode", EventType.CHANGE_EVENT, self.dishModeCallback, stateless=True)
             self._dish_proxy.subscribe_event("pointingState", EventType.CHANGE_EVENT, self.dishPointingStateCallback, stateless=True)
-            self._dish_proxy.subscribe_event("healthState",EventType.CHANGE_EVENT, self.dishHealthStateCallback, stateless=True)
+            #self._dish_proxy.subscribe_event("healthState",EventType.CHANGE_EVENT, self.dishHealthStateCallback, stateless=True)
             self._dish_proxy.subscribe_event("capturing",EventType.CHANGE_EVENT, self.dishCapturingCallback, stateless=True)
             self._dish_proxy.subscribe_event("achievedPointing", EventType.CHANGE_EVENT, self.dishAchievedPointingCallback, stateless=True)
             self._dish_proxy.subscribe_event("desiredPointing", EventType.CHANGE_EVENT, self.dishDesiredPointingCallback, stateless=True)
@@ -310,6 +312,7 @@ class DishLeafNode(SKABaseDevice):
         # PROTECTED REGION ID(DishLeafNode.SetOperateMode) ENABLED START #
         try:
             self._dish_proxy.command_inout_asynch("SetOperateMode", self.commandCallback)
+            self._dish_proxy.subscribe_event("healthState",EventType.CHANGE_EVENT, self.dishHealthStateCallback, stateless=True)
         except Exception as e:
             print "Exception in SetOperateMode command:"
             print e
@@ -320,7 +323,7 @@ class DishLeafNode(SKABaseDevice):
     doc_in="Timestamp", 
     )
     @DebugIt()
-    def Scan(self, argin) :
+    def Scan(self, argin):
         # PROTECTED REGION ID(DishLeafNode.Scan) ENABLED START #
         try:
             self._dish_proxy.command_inout_asynch("Scan", argin, self.commandCallback)
@@ -343,6 +346,32 @@ class DishLeafNode(SKABaseDevice):
             print "Exception in EndScan command:"
             print e
         # PROTECTED REGION END #    //  DishLeafNode.EndScan
+
+    @command(
+    dtype_in=('str',), 
+    doc_in="Pointing parameter of Dish", 
+    )
+    @DebugIt()
+    def Configure(self, argin):
+        # PROTECTED REGION ID(DishLeafNode.Configure) ENABLED START #
+
+        try:
+            argin1 = [float(argin[0]) , float(argin[1])]
+            spectrum = [0]
+            spectrum.extend((argin1))
+            self._dish_proxy.desiredPointing = spectrum
+            self._dish_proxy.command_inout_asynch("Slew", "0",  self.commandCallback)
+        except Exception as e:
+            print "Exception in Configure command:"
+            print e
+
+        pass
+        # PROTECTED REGION END #    //  DishLeafNode.Configure
+
+    def is_Configure_allowed(self):
+        # PROTECTED REGION ID(DishLeafNode.is_Configure_allowed) ENABLED START #
+        return self.get_state() not in [DevState.INIT,DevState.ALARM,DevState.DISABLE,DevState.OFF,DevState.STANDBY]
+        # PROTECTED REGION END #    //  DishLeafNode.is_Configure_allowed
 
 # ----------
 # Run server

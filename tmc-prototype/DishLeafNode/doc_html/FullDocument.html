@@ -71,6 +71,7 @@
 				<li> <a href="FullDocument.html#cmdSetOperateMode"> SetOperateMode </a>
 				<li> <a href="FullDocument.html#cmdScan"> Scan </a>
 				<li> <a href="FullDocument.html#cmdEndScan"> EndScan </a>
+				<li> <a href="FullDocument.html#cmdConfigure"> Configure </a>
 			</ul>
 			<li> <a href="FullDocument.html#attributes">   Attributes   </a>
 			<ul>
@@ -353,6 +354,13 @@
 		<td> DEV_VOID </td>
 		<td> OPERATOR </td>
 		<td> Command the Dish to stop the Scan. </td>
+	</tr>
+	<tr>
+		<td> <a href="CmdConfigure.html"> Configure </a> </td>
+		<td> DEVVAR_STRINGARRAY </td>
+		<td> DEV_VOID </td>
+		<td> OPERATOR </td>
+		<td> Command to configure Dish. Configuration includes setting pointing coordinates of Dish for a given observation. </td>
 	</tr>
 </table>
 <br><br><hr>
@@ -914,6 +922,55 @@ filtered as per the input argument flags </td>
 	<tr>
 		<td> Command allowed for </td>
 		<td> All states </td>
+		<td> .. </td>
+	</tr>
+</table>
+<br><br><hr>
+<a name="cmdConfigure"> </a>
+<br><br><br>
+<font size="+1"><u><b> Command Configure : </b></u></font>
+<ul>
+	Command to configure Dish. Configuration includes setting pointing coordinates of Dish for a given observation.
+</ul>
+<br><br><br>
+<Table Border=2 Cellpadding=3 CELLSPACING=0>
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+	<td colspan=0> <font size=+1> <center><b> Configure Definition </b></font></center></td>
+	</tr>
+	<tr>
+		<td> Input Argument </td>
+		<td> Tango::DEVVAR_STRINGARRAY </td>
+		<td> Pointing parameter of Dish </td>
+	</tr>
+	<tr>
+		<td> Output Argument </td>
+		<td> Tango::DEV_VOID </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td> DisplayLevel </td>
+		<td> OPERATOR </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Inherited </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Abstract </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Polling Period </td>
+		<td> Not polled </td>
+		<td> .. </td>
+	</tr>
+<Tr BGCOLOR="#CCCCFF"><Td><Hr></Td><Td><Hr></Td><Td><Hr></Td></Tr>
+	<tr>
+		<td> Command NOT allowed for </td>
+		<td> <font size="-1">  <li> INIT </li>  <li> ALARM </li>  <li> DISABLE </li>  <li> OFF </li>  <li> STANDBY </li> </font> </td>
 		<td> .. </td>
 	</tr>
 </table>

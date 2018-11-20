@@ -123,6 +123,12 @@ class DishLeafNodeDeviceTestCase(DeviceTestCase):
         self.device.EndScan()
         # PROTECTED REGION END #    //  DishLeafNode.test_EndScan
 
+    def test_Configure(self):
+        """Test for Configure"""
+        # PROTECTED REGION ID(DishLeafNode.test_Configure) ENABLED START #
+        self.device.Configure([""])
+        # PROTECTED REGION END #    //  DishLeafNode.test_Configure
+
     def test_buildState(self):
         """Test for buildState"""
         # PROTECTED REGION ID(DishLeafNode.test_buildState) ENABLED START #
