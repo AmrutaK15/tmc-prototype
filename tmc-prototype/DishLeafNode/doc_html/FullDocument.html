@@ -72,6 +72,10 @@
 				<li> <a href="FullDocument.html#cmdScan"> Scan </a>
 				<li> <a href="FullDocument.html#cmdEndScan"> EndScan </a>
 				<li> <a href="FullDocument.html#cmdConfigure"> Configure </a>
+				<li> <a href="FullDocument.html#cmdStartCapture"> StartCapture </a>
+				<li> <a href="FullDocument.html#cmdStopCapture"> StopCapture </a>
+				<li> <a href="FullDocument.html#cmdSetStandbyFPMode"> SetStandbyFPMode </a>
+				<li> <a href="FullDocument.html#cmdSlew"> Slew </a>
 			</ul>
 			<li> <a href="FullDocument.html#attributes">   Attributes   </a>
 			<ul>
@@ -361,6 +365,34 @@
 		<td> DEV_VOID </td>
 		<td> OPERATOR </td>
 		<td> Command to configure Dish. Configuration includes setting pointing coordinates of Dish for a given observation. </td>
+	</tr>
+	<tr>
+		<td> <a href="CmdStartCapture.html"> StartCapture </a> </td>
+		<td> DEV_STRING </td>
+		<td> DEV_VOID </td>
+		<td> OPERATOR </td>
+		<td> Start capture on the configured band. </td>
+	</tr>
+	<tr>
+		<td> <a href="CmdStopCapture.html"> StopCapture </a> </td>
+		<td> DEV_STRING </td>
+		<td> DEV_VOID </td>
+		<td> OPERATOR </td>
+		<td> Stop capture on the configured band. </td>
+	</tr>
+	<tr>
+		<td> <a href="CmdSetStandbyFPMode.html"> SetStandbyFPMode </a> </td>
+		<td> DEV_VOID </td>
+		<td> DEV_VOID </td>
+		<td> OPERATOR </td>
+		<td> Dish transits in STANDBY-FP Mode. </td>
+	</tr>
+	<tr>
+		<td> <a href="CmdSlew.html"> Slew </a> </td>
+		<td> DEV_STRING </td>
+		<td> DEV_VOID </td>
+		<td> OPERATOR </td>
+		<td> Dish moves to the commanded pointing angle. </td>
 	</tr>
 </table>
 <br><br><hr>
@@ -971,6 +1003,202 @@ filtered as per the input argument flags </td>
 	<tr>
 		<td> Command NOT allowed for </td>
 		<td> <font size="-1">  <li> INIT </li>  <li> ALARM </li>  <li> DISABLE </li>  <li> OFF </li>  <li> STANDBY </li> </font> </td>
+		<td> .. </td>
+	</tr>
+</table>
+<br><br><hr>
+<a name="cmdStartCapture"> </a>
+<br><br><br>
+<font size="+1"><u><b> Command StartCapture : </b></u></font>
+<ul>
+	Start capture on the configured band.
+</ul>
+<br><br><br>
+<Table Border=2 Cellpadding=3 CELLSPACING=0>
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+	<td colspan=0> <font size=+1> <center><b> StartCapture Definition </b></font></center></td>
+	</tr>
+	<tr>
+		<td> Input Argument </td>
+		<td> Tango::DEV_STRING </td>
+		<td> The timestamp indicates the time, in UTC, at which command execution should start. </td>
+	</tr>
+	<tr>
+		<td> Output Argument </td>
+		<td> Tango::DEV_VOID </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td> DisplayLevel </td>
+		<td> OPERATOR </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Inherited </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Abstract </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Polling Period </td>
+		<td> Not polled </td>
+		<td> .. </td>
+	</tr>
+<Tr BGCOLOR="#CCCCFF"><Td><Hr></Td><Td><Hr></Td><Td><Hr></Td></Tr>
+	<tr>
+		<td> Command allowed for </td>
+		<td> All states </td>
+		<td> .. </td>
+	</tr>
+</table>
+<br><br><hr>
+<a name="cmdStopCapture"> </a>
+<br><br><br>
+<font size="+1"><u><b> Command StopCapture : </b></u></font>
+<ul>
+	Stop capture on the configured band.
+</ul>
+<br><br><br>
+<Table Border=2 Cellpadding=3 CELLSPACING=0>
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+	<td colspan=0> <font size=+1> <center><b> StopCapture Definition </b></font></center></td>
+	</tr>
+	<tr>
+		<td> Input Argument </td>
+		<td> Tango::DEV_STRING </td>
+		<td> The timestamp indicates the time, in UTC, at which command execution should start. </td>
+	</tr>
+	<tr>
+		<td> Output Argument </td>
+		<td> Tango::DEV_VOID </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td> DisplayLevel </td>
+		<td> OPERATOR </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Inherited </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Abstract </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Polling Period </td>
+		<td> Not polled </td>
+		<td> .. </td>
+	</tr>
+<Tr BGCOLOR="#CCCCFF"><Td><Hr></Td><Td><Hr></Td><Td><Hr></Td></Tr>
+	<tr>
+		<td> Command allowed for </td>
+		<td> All states </td>
+		<td> .. </td>
+	</tr>
+</table>
+<br><br><hr>
+<a name="cmdSetStandbyFPMode"> </a>
+<br><br><br>
+<font size="+1"><u><b> Command SetStandbyFPMode : </b></u></font>
+<ul>
+	Dish transits in STANDBY-FP Mode.
+</ul>
+<br><br><br>
+<Table Border=2 Cellpadding=3 CELLSPACING=0>
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+	<td colspan=0> <font size=+1> <center><b> SetStandbyFPMode Definition </b></font></center></td>
+	</tr>
+	<tr>
+		<td> Input Argument </td>
+		<td> Tango::DEV_VOID </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td> Output Argument </td>
+		<td> Tango::DEV_VOID </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td> DisplayLevel </td>
+		<td> OPERATOR </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Inherited </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Abstract </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Polling Period </td>
+		<td> Not polled </td>
+		<td> .. </td>
+	</tr>
+<Tr BGCOLOR="#CCCCFF"><Td><Hr></Td><Td><Hr></Td><Td><Hr></Td></Tr>
+	<tr>
+		<td> Command allowed for </td>
+		<td> All states </td>
+		<td> .. </td>
+	</tr>
+</table>
+<br><br><hr>
+<a name="cmdSlew"> </a>
+<br><br><br>
+<font size="+1"><u><b> Command Slew : </b></u></font>
+<ul>
+	Dish moves to the commanded pointing angle.
+</ul>
+<br><br><br>
+<Table Border=2 Cellpadding=3 CELLSPACING=0>
+	<tr bgcolor="#CCCCFF" class="TableHeadingColor">
+	<td colspan=0> <font size=+1> <center><b> Slew Definition </b></font></center></td>
+	</tr>
+	<tr>
+		<td> Input Argument </td>
+		<td> Tango::DEV_STRING </td>
+		<td> Timestamp at which command should be executed. </td>
+	</tr>
+	<tr>
+		<td> Output Argument </td>
+		<td> Tango::DEV_VOID </td>
+		<td>  </td>
+	</tr>
+	<tr>
+		<td> DisplayLevel </td>
+		<td> OPERATOR </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Inherited </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Abstract </td>
+		<td> false </td>
+		<td> .. </td>
+	</tr>
+	<tr>
+		<td> Polling Period </td>
+		<td> Not polled </td>
+		<td> .. </td>
+	</tr>
+<Tr BGCOLOR="#CCCCFF"><Td><Hr></Td><Td><Hr></Td><Td><Hr></Td></Tr>
+	<tr>
+		<td> Command allowed for </td>
+		<td> All states </td>
 		<td> .. </td>
 	</tr>
 </table>

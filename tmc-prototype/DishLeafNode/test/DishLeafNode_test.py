@@ -129,6 +129,30 @@ class DishLeafNodeDeviceTestCase(DeviceTestCase):
         self.device.Configure([""])
         # PROTECTED REGION END #    //  DishLeafNode.test_Configure
 
+    def test_StartCapture(self):
+        """Test for StartCapture"""
+        # PROTECTED REGION ID(DishLeafNode.test_StartCapture) ENABLED START #
+        self.device.StartCapture("")
+        # PROTECTED REGION END #    //  DishLeafNode.test_StartCapture
+
+    def test_StopCapture(self):
+        """Test for StopCapture"""
+        # PROTECTED REGION ID(DishLeafNode.test_StopCapture) ENABLED START #
+        self.device.StopCapture("")
+        # PROTECTED REGION END #    //  DishLeafNode.test_StopCapture
+
+    def test_SetStandbyFPMode(self):
+        """Test for SetStandbyFPMode"""
+        # PROTECTED REGION ID(DishLeafNode.test_SetStandbyFPMode) ENABLED START #
+        self.device.SetStandbyFPMode()
+        # PROTECTED REGION END #    //  DishLeafNode.test_SetStandbyFPMode
+
+    def test_Slew(self):
+        """Test for Slew"""
+        # PROTECTED REGION ID(DishLeafNode.test_Slew) ENABLED START #
+        self.device.Slew("")
+        # PROTECTED REGION END #    //  DishLeafNode.test_Slew
+
     def test_buildState(self):
         """Test for buildState"""
         # PROTECTED REGION ID(DishLeafNode.test_buildState) ENABLED START #

@@ -235,7 +235,7 @@ class DishLeafNode(SKABaseDevice):
 
         self.dishModeCallback = self.DishModeCallback()
         self.dishPointingStateCallback = self.DishPointingStateCallback()
-        self.dishHealthStateCallback = self.DishHealthStateCallback()
+        #self.dishHealthStateCallback = self.DishHealthStateCallback()
         self.dishCapturingCallback = self.DishCapturingCallback()
         self.dishAchievedPointingCallback = self.DishAchievedPointingCallback()
         self.dishDesiredPointingCallback = self.DishDesiredPointingCallback()
@@ -312,7 +312,6 @@ class DishLeafNode(SKABaseDevice):
         # PROTECTED REGION ID(DishLeafNode.SetOperateMode) ENABLED START #
         try:
             self._dish_proxy.command_inout_asynch("SetOperateMode", self.commandCallback)
-            self._dish_proxy.subscribe_event("healthState",EventType.CHANGE_EVENT, self.dishHealthStateCallback, stateless=True)
         except Exception as e:
             print "Exception in SetOperateMode command:"
             print e
@@ -372,6 +371,60 @@ class DishLeafNode(SKABaseDevice):
         # PROTECTED REGION ID(DishLeafNode.is_Configure_allowed) ENABLED START #
         return self.get_state() not in [DevState.INIT,DevState.ALARM,DevState.DISABLE,DevState.OFF,DevState.STANDBY]
         # PROTECTED REGION END #    //  DishLeafNode.is_Configure_allowed
+
+    @command(
+    dtype_in='str', 
+    doc_in="The timestamp indicates the time, in UTC, at which command execution should start.", 
+    )
+    @DebugIt()
+    def StartCapture(self, argin):
+        # PROTECTED REGION ID(DishLeafNode.StartCapture) ENABLED START #
+        try:
+            self._dish_proxy.command_inout_asynch("StartCapture", argin, self.commandCallback)
+        except Exception as e:
+            print "Exception in StartCapture command:"
+            print e
+        # PROTECTED REGION END #    //  DishLeafNode.StartCapture
+
+    @command(
+    dtype_in='str', 
+    doc_in="The timestamp indicates the time, in UTC, at which command execution should start.", 
+    )
+    @DebugIt()
+    def StopCapture(self, argin):
+        # PROTECTED REGION ID(DishLeafNode.StopCapture) ENABLED START #
+        try:
+            self._dish_proxy.command_inout_asynch("StopCapture", argin, self.commandCallback)
+        except Exception as e:
+            print "Exception in StopCapture command:"
+            print e
+        # PROTECTED REGION END #    //  DishLeafNode.StopCapture
+
+    @command(
+    )
+    @DebugIt()
+    def SetStandbyFPMode(self):
+        # PROTECTED REGION ID(DishLeafNode.SetStandbyFPMode) ENABLED START #
+        try:
+            self._dish_proxy.command_inout_asynch("SetStandbyFPMode", self.commandCallback)
+        except Exception as e:
+            print "Exception in SetStandbyFPMode command:"
+            print e
+        # PROTECTED REGION END #    //  DishLeafNode.SetStandbyFPMode
+
+    @command(
+    dtype_in='str', 
+    doc_in="Timestamp at which command should be executed.", 
+    )
+    @DebugIt()
+    def Slew(self, argin):
+        # PROTECTED REGION ID(DishLeafNode.Slew) ENABLED START #
+        try:
+            self._dish_proxy.command_inout_asynch("Slew", argin, self.commandCallback)
+        except Exception as e:
+            print "Exception in Slew command:"
+            print e
+        # PROTECTED REGION END #    //  DishLeafNode.Slew
 
 # ----------
 # Run server
