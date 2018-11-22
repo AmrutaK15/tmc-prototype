@@ -39,42 +39,6 @@ class SubarrayNode(SKASubarray):
     __metaclass__ = DeviceMeta
     # PROTECTED REGION ID(SubarrayNode.class_variable) ENABLED START #
 
-    #class DishHealthStateCallback (PyTango.utils.EventCallback):
-    class DishHealthStateCallback(tango.utils.EventCallback):
-
-        def push_event(self, evt):
-            print "Health Map is: ", SubarrayNode.dishHealthStateMap
-            if (evt.err==False):
-                try:
-                    self._dish_health_state = evt.attr_value.value
-                    SubarrayNode.dishHealthStateMap[evt.device] = self._dish_health_state
-                    if(self._dish_health_state == 0):
-                        print "Health state of " + str(evt.device) + " :-> OK"
-                    elif (self._dish_health_state == 1):
-                        print "Health state of " + str(evt.device) + " :-> DEGRADED"
-                    elif (self._dish_health_state == 2):
-                        print "Health state of " + str(evt.device) + " :-> FAILED"
-                    elif (self._dish_health_state == 3):
-                        print "Health state of " + str(evt.device) + " :-> UNKNOWN"
-                    else:
-                        print "Dish Health state event returned unknown value! \n", evt
-                except Exception as e:
-                    print "Unexpected error in DishHealthStateCallback!\n", e.message
-            else:
-                print "Error event on subscribing HealthState attribute!\n", evt.errors
-            print "Health Map is: ", SubarrayNode.dishHealthStateMap
-            print "Test :-> ", type(SKASubarray.healthState)
-
-            # try:
-            #     for value in (SubarrayNode.dishHealthStateMap.values()):
-            #          if value == 2:
-            #              SubarrayNode.health = 2
-            #              print SubarrayNode.read_healthState(SubarrayNode)
-            #     print "map values are: ", value
-            # except Exception as e:
-            #     print "Unexpected error in health map!\n", e
-
-
     @command(
         dtype_in=('str',),
         doc_in="Execute Scan on the Subarray",
@@ -185,8 +149,8 @@ class SubarrayNode(SKASubarray):
             self._dish_leaf_node_proxy = []
             self._receptor_id_list = []
 
-            self.set_state(DevState.OFF)                                                                                    # Set state = ON
-            self._obs_state = 0                                                                                             # set obsState to "IDLE"
+            self.set_state(DevState.OFF)                                                                                # Set state = OFF
+            self._obs_state = 0                                                                                         # set obsState to "IDLE"
             self.set_status("All the receptors are removed from the Subarray node.")
         except Exception as e:
             print "Exception in ReleaseAllResources command:"
@@ -247,7 +211,7 @@ class SubarrayNode(SKASubarray):
                     self._health_state = 3
 
             except Exception as e:
-                print "Unexpected error in DishHealthStateCallback!\n", e.message
+                print "Unexpected error in while aggregating Health state!\n", e.message
         else:
             print "Error event on subscribing HealthState attribute!\n", evt.errors
 
@@ -316,8 +280,7 @@ class SubarrayNode(SKASubarray):
         self.set_status("Initializing SubarrayNode...")
         self.SkaLevel = 2                                                                                               # set SKALevel to "2"
         self._admin_mode = 0                                                                                            # set adminMode to "ON-LINE"
-        self._health_state = 2                                                                                          # set health state to "OK"
-        #SubarrayNode.health = 0
+        self._health_state = 1                                                                                          # set health state to "OK"
         self._obs_state = 0                                                                                             # set obsState to "IDLE"
         self._obs_mode = 0                                                                                              # set obsMode to "IDLE"
         self._simulation_mode = False
@@ -329,8 +292,6 @@ class SubarrayNode(SKASubarray):
         self._dish_leaf_node_group = PyTango.Group("DishLeafNode_Group")
         self._dish_leaf_node_proxy = []
         self._health_event_id = []
-
-        self.dishHealthStateCallback = self.DishHealthStateCallback()
 
         self.set_state(DevState.OFF)                                                                                    # Set state = OFF
         self.set_status("SubarrayNode is initialized successfully.")
