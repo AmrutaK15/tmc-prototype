@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="fadcec26-e6b8-4989-b9dd-2f857743ee98" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmc-prototype/DishLeafNode/DishLeafNode.xmi" beforeDir="false" afterPath="$PROJECT_DIR$/tmc-prototype/DishLeafNode/DishLeafNode.xmi" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmc-prototype/DishLeafNode/DishLeafNode/DishLeafNode.py" beforeDir="false" afterPath="$PROJECT_DIR$/tmc-prototype/DishLeafNode/DishLeafNode/DishLeafNode.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmc-prototype/DishLeafNode/doc_html/Commands.html" beforeDir="false" afterPath="$PROJECT_DIR$/tmc-prototype/DishLeafNode/doc_html/Commands.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmc-prototype/DishLeafNode/doc_html/FullDocument.html" beforeDir="false" afterPath="$PROJECT_DIR$/tmc-prototype/DishLeafNode/doc_html/FullDocument.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmc-prototype/DishLeafNode/test/DishLeafNode_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tmc-prototype/DishLeafNode/test/DishLeafNode_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmc-prototype/SubarrayNode/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/tmc-prototype/SubarrayNode/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmc-prototype/SubarrayNode/SubarrayNode/SubarrayNode.py" beforeDir="false" afterPath="$PROJECT_DIR$/tmc-prototype/SubarrayNode/SubarrayNode/SubarrayNode.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -19,15 +16,16 @@
     <session id="-1050755657">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="23" />
-          <entry key="project.open.time.0" value="10" />
+          <entry key="project.closed" value="27" />
+          <entry key="project.open.time.0" value="14" />
           <entry key="project.open.time.13" value="2" />
           <entry key="project.open.time.14" value="3" />
           <entry key="project.open.time.17" value="1" />
+          <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.3" value="4" />
           <entry key="project.open.time.4" value="2" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="23" />
+          <entry key="project.opened" value="28" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -44,12 +42,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="6161" />
+          <entry key="py" value="6219" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="6161" />
+          <entry key="Python" value="6219" />
         </counts>
       </usages-collector>
     </session>
@@ -59,13 +57,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tmc-prototype/DishLeafNode/DishLeafNode/DishLeafNode.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="207" lean-forward="true" selection-start-line="207" selection-end-line="207" />
+            <state relative-caret-position="155">
+              <caret line="330" column="19" lean-forward="true" selection-start-line="330" selection-start-column="19" selection-end-line="330" selection-end-column="19" />
               <folding>
                 <element signature="e#229#243#0" expanded="true" />
-                <marker date="1542375292245" expanded="true" signature="1202:7015" ph="..." />
-                <marker date="1542375292245" expanded="true" signature="6517:6526" ph="..." />
-                <marker date="1542375292245" expanded="true" signature="7007:7015" ph="..." />
+                <marker date="1542784320687" expanded="true" signature="1202:7015" ph="..." />
+                <marker date="1542784320687" expanded="true" signature="6517:6526" ph="..." />
+                <marker date="1542784320687" expanded="true" signature="7007:7015" ph="..." />
               </folding>
             </state>
           </provider>
@@ -161,16 +159,15 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="65" />
-    <option name="y" value="24" />
-    <option name="width" value="928" />
-    <option name="height" value="1056" />
+    <option name="y" value="-4" />
+    <option name="width" value="1855" />
+    <option name="height" value="1084" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -200,6 +197,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -218,7 +216,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.DishLeafNode">
+  <component name="RunManager" selected="Python.DishLeafNode2">
     <configuration name="DishLeafNode" type="PythonConfigurationType" factoryName="Python">
       <module name="tmc-prototype" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -283,7 +281,7 @@
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19268559" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19213974" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -455,13 +453,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tmc-prototype/DishLeafNode/DishLeafNode/DishLeafNode.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="207" lean-forward="true" selection-start-line="207" selection-end-line="207" />
+        <state relative-caret-position="155">
+          <caret line="330" column="19" lean-forward="true" selection-start-line="330" selection-start-column="19" selection-end-line="330" selection-end-column="19" />
           <folding>
             <element signature="e#229#243#0" expanded="true" />
-            <marker date="1542375292245" expanded="true" signature="1202:7015" ph="..." />
-            <marker date="1542375292245" expanded="true" signature="6517:6526" ph="..." />
-            <marker date="1542375292245" expanded="true" signature="7007:7015" ph="..." />
+            <marker date="1542784320687" expanded="true" signature="1202:7015" ph="..." />
+            <marker date="1542784320687" expanded="true" signature="6517:6526" ph="..." />
+            <marker date="1542784320687" expanded="true" signature="7007:7015" ph="..." />
           </folding>
         </state>
       </provider>
