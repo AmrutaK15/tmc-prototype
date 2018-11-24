@@ -280,7 +280,7 @@ class SubarrayNode(SKASubarray):
         self.set_status("Initializing SubarrayNode...")
         self.SkaLevel = 2                                                                                               # set SKALevel to "2"
         self._admin_mode = 0                                                                                            # set adminMode to "ON-LINE"
-        self._health_state = 1                                                                                          # set health state to "OK"
+        self._health_state = 0                                                                                          # set health state to "OK"
         self._obs_state = 0                                                                                             # set obsState to "IDLE"
         self._obs_mode = 0                                                                                              # set obsMode to "IDLE"
         self._simulation_mode = False
