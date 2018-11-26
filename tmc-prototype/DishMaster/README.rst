@@ -1,6 +1,6 @@
 ## DishMaster Simulator
 
-A TANGO device server to simulate the SKA Dish Master.
+SKA Dish Master TANGO device server
 
 ## Requirement
 

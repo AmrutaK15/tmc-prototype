@@ -28,7 +28,7 @@ pack = ['DishMaster']
 
 setup(name=name,
       version=version,
-      description='A TANGO device server to simulate the SKA Dish Master.',
+      description='SKA Dish Master TANGO device server',
       packages=pack,
       include_package_data=True,
       test_suite="test",
