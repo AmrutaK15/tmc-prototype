@@ -22,7 +22,6 @@ from PyTango.server import device_property
 from PyTango import AttrQuality, DispLevel, DevState
 from PyTango import AttrWriteType, PipeWriteType
 from SKAMaster import SKAMaster
-
 # Additional import
 # PROTECTED REGION ID(DishMaster.additionnal_import) ENABLED START #
 import time
@@ -149,14 +148,36 @@ class DishMaster(SKAMaster):
     # Device Properties
     # -----------------
 
+
+
+
+
+
+
+
+
+
     ReceptorNumber = device_property(
         dtype='uint',
-        mandatory=True
     )
 
     # ----------
     # Attributes
     # ----------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     dishMode = attribute(
         dtype='DevEnum',
@@ -242,18 +263,18 @@ class DishMaster(SKAMaster):
             self._admin_mode = 0                        # Set adminMode to ONLINE
             self._dish_mode = 3                         # Set dishMode to STANDBY-LP Mode
             self._pointing_state = 0                    # Set pointingState to READY Mode
-            self._band1_sampler_frequency = 0           # Set Band 1 Sampler Frequency to 0
-            self._band2_sampler_frequency = 0           # Set Band 2 Sampler Frequency to 0
-            self._band3_sampler_frequency = 0           # Set Band 3 Sampler Frequency to 0
-            self._band4_sampler_frequency = 0           # Set Band 4 Sampler Frequency to 0
-            self._band5a_sampler_frequency = 0          # Set Band 5a Sampler Frequency to 0
-            self._band5b_sampler_frequency = 0          # Set Band 5b Sampler Frequency to 0
+            self._configured_band = 1
+            self._band1_sampler_frequency = 10           # Set Band 1 Sampler Frequency to 0
+            self._band2_sampler_frequency = 10           # Set Band 2 Sampler Frequency to 0
+            self._band3_sampler_frequency = 10           # Set Band 3 Sampler Frequency to 0
+            self._band4_sampler_frequency = 10           # Set Band 4 Sampler Frequency to 0
+            self._band5a_sampler_frequency =10          # Set Band 5a Sampler Frequency to 0
+            self._band5b_sampler_frequency =10          # Set Band 5b Sampler Frequency to 0
             self._capturing = False
             self._desired_pointing = [0,20,40]
             self._achieved_pointing = [0,0,0]
             self._elevation_difference = 0
             self._azimuth_difference = 0
-            self._configured_band = 1
             self._wind_speed = 5
             self.set_state(PyTango.DevState.STANDBY)    # Set STATE to STANDBY
 
@@ -282,6 +303,11 @@ class DishMaster(SKAMaster):
             print "Unexpected error in initialising properties and attributes on Dish", self.ReceptorNumber
             print "Error message is: \n", e
 
+        pass
+        # PROTECTED REGION END #    //  DishMaster.always_executed_hook
+
+    def always_executed_hook(self):
+        # PROTECTED REGION ID(DishMaster.always_executed_hook) ENABLED START #
         pass
         # PROTECTED REGION END #    //  DishMaster.always_executed_hook
 
@@ -594,7 +620,7 @@ class DishMaster(SKAMaster):
     doc_in="Timestamp at which command should be executed.", 
     )
     @DebugIt()
-    def Slew(self, argin=0):
+    def Slew(self, argin):
         # PROTECTED REGION ID(DishMaster.Slew) ENABLED START #
         try:
             # Execute POINT command at given timestamp

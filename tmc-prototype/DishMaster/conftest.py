@@ -27,7 +27,7 @@ def tango_context(request):
     print "class details are:", fq_test_class_name_details 
     package_name = fq_test_class_name_details[0]
     print "package name is:", package_name
-    class_name = module_name = fq_test_class_name_details[1]
+    class_name = module_name = fq_test_class_name_details[0]
     print "module and class name are :", class_name, module_name
     module = importlib.import_module("{}.{}".format(package_name, module_name))
     print "module name is:", module
