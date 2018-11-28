@@ -213,6 +213,12 @@ class DishLeafNodeDeviceTestCase(DeviceTestCase):
         self.device.testMode
         # PROTECTED REGION END #    //  DishLeafNode.test_testMode
 
+    def test_activityMessage(self):
+        """Test for activityMessage"""
+        # PROTECTED REGION ID(DishLeafNode.test_activityMessage) ENABLED START #
+        self.device.activityMessage
+        # PROTECTED REGION END #    //  DishLeafNode.test_activityMessage
+
 
 # Main execution
 if __name__ == "__main__":

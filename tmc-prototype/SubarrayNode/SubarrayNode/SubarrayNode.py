@@ -50,15 +50,23 @@ class SubarrayNode(SKASubarray):
             self._obs_state = 3                                                                                         # set obsState to SCANNING when the scan is started
             print "Scan inputs Arguments :-> ", argin
             print "Group Definitions in scan function :-> ", self._dish_leaf_node_group.get_device_list()
+
+            self._read_activity_message = "Scan inputs Arguments :-> " + str(argin)
+            self._read_activity_message = "Group Definitions in scan function :-> " + str(self._dish_leaf_node_group.get_device_list())
+
             cmdData = PyTango.DeviceData()
             cmdData.insert(PyTango.DevString, argin[0])
             self._dish_leaf_node_group.command_inout("Scan", cmdData)
             self.set_status("Subarray is scanning at the desired pointing coordinates.")
+            self.devlogmsg("Subarray is scanning at the desired pointing coordinates.", 4)
 
         except Exception as e:
             print "Exception in Scan command:"
             print e
 
+            self._read_activity_message = "Exception in Scan command: \n " + str(e)
+
+            self.devlogmsg("Exception occurred while Subarray is scanning at the desired pointing coordinates.", 2)
 
     def is_Scan_allowed(self):
         return self.get_state() not in [DevState.FAULT,DevState.UNKNOWN,DevState.DISABLE,DevState.STANDBY]
@@ -75,9 +83,14 @@ class SubarrayNode(SKASubarray):
             self._dish_leaf_node_group.command_inout("EndScan", cmdData)
             self._obs_state = 0                                                                                         # set obsState to IDLE when the scan is ended
             self.set_status("Scan is completed")
+            self.devlogmsg("Scan is completed", 4)
         except Exception as e:
             print "Exception in EndScan command:"
             print e
+
+            self._read_activity_message = "Exception in EndScan command: \n " + str(e)
+
+            self.devlogmsg("Exception occurred while ending the scan on Subarray.", 2)
 
     def is_EndScan_allowed(self):
         return self.get_state() not in [DevState.FAULT,DevState.UNKNOWN,DevState.DISABLE,DevState.STANDBY]
@@ -103,7 +116,12 @@ class SubarrayNode(SKASubarray):
             print "Group definition :-> ", self._dish_leaf_node_group.get_device_list(True)
             print "LeafNode proxies :-> ", self._dish_leaf_node_proxy
 
+            self._read_activity_message = "Group definition :-> " + str(self._dish_leaf_node_group.get_device_list(True))
+            self._read_activity_message = "LeafNode proxies :-> " + str(self._dish_leaf_node_proxy)
+
             print "Subscribing HealthState attributes of Leaf Nodes..."
+
+            self._read_activity_message = "Subscribing HealthState attributes of Leaf Nodes..."
 
             for leaf in range(0, len(self._dish_leaf_node_proxy)):
                 self.dishHealthStateMap[self._dish_leaf_node_proxy[leaf]] = -1
@@ -116,13 +134,21 @@ class SubarrayNode(SKASubarray):
 
                 self._health_event_id.append(self._event_id)
             print "DishHealth EventID array is:" , self._health_event_id
+
+            self._read_activity_message = "DishHealth EventID array is:" +  str(self._health_event_id)
+
             self.set_state(DevState.ON)                                                                                 # Set state = ON
             self._obs_state = 0                                                                                         # set obsState to "IDLE"
             self.set_status("Receptors are assigned successfully.")
+            self.devlogmsg("Receptors are assigned successfully.", 4)
 
         except Exception as e:
             print "Exception in AssignResources command:"
             print e
+
+            self._read_activity_message = "Exception in AssignResources command: \n " + str(e)
+
+            self.devlogmsg("Exception occurred in AssignResources command.", 2)
             argin = str(e)
 
         return argin
@@ -140,7 +166,10 @@ class SubarrayNode(SKASubarray):
         argout = []
         try:
             self._dish_leaf_node_group.remove_all()
-            print "Group definition in release function:-> ", self._dish_leaf_node_group.get_device_list(True)
+            print "Group definition in release function:-> "+ str(self._dish_leaf_node_group.get_device_list(True))
+
+            self._read_activity_message = "Group definition in release function:-> " + str(self._dish_leaf_node_group.get_device_list(True))
+
             argout.extend(self._dish_leaf_node_group.get_device_list(True))
             for leaf in range(0, len(self._health_event_id)):
                 self._dish_leaf_node_proxy[leaf].unsubscribe_event(self._health_event_id[leaf])
@@ -152,11 +181,15 @@ class SubarrayNode(SKASubarray):
             self.set_state(DevState.OFF)                                                                                # Set state = OFF
             self._obs_state = 0                                                                                         # set obsState to "IDLE"
             self.set_status("All the receptors are removed from the Subarray node.")
+            self.devlogmsg("All the receptors are removed from the Subarray node.", 4)
         except Exception as e:
             print "Exception in ReleaseAllResources command:"
             print e
-            argout = []
 
+            self._read_activity_message = "Exception in ReleaseAllResources command: \n " + str(e)
+
+            argout = []
+            self.devlogmsg("Exception occurred in ReleaseAllResources command.", 2)
         return argout
 
     def is_ReleaseAllResources_allowed(self):
@@ -169,14 +202,23 @@ class SubarrayNode(SKASubarray):
                 self.dishHealthStateMap[evt.device] = self._dish_health_state
                 if (self._dish_health_state == 0):
                     print "Health state of " + str(evt.device) + " :-> OK"
+                    self._read_activity_message = "Health state of " + str(evt.device) + " :-> OK"
+
                 elif (self._dish_health_state == 1):
                     print "Health state of " + str(evt.device) + " :-> DEGRADED"
+                    self._read_activity_message = "Health state of " + str(evt.device) + " :-> DEGRADED"
+
                 elif (self._dish_health_state == 2):
                     print "Health state of " + str(evt.device) + " :-> FAILED"
+                    self._read_activity_message = "Health state of " + str(evt.device) + " :-> FAILED"
+
                 elif (self._dish_health_state == 3):
                     print "Health state of " + str(evt.device) + " :-> UNKNOWN"
+                    self._read_activity_message = "Health state of " + str(evt.device) + " :-> UNKNOWN"
+
                 else:
                     print "Dish Health state event returned unknown value! \n", evt
+                    self._read_activity_message = "Dish Health state event returned unknown value! \n" + str(evt)
 
                 #Aggregated Health State
                 failed = 0
@@ -211,9 +253,14 @@ class SubarrayNode(SKASubarray):
                     self._health_state = 3
 
             except Exception as e:
-                print "Unexpected error in while aggregating Health state!\n", e.message
+                print "Unexpected error while aggregating Health state!\n", e.message
+                self._read_activity_message = "Unexpected error while aggregating Health state!\n" + str(e.message)
+
+                self.devlogmsg("Unexpected error while aggregating Health state.", 2)
         else:
             print "Error event on subscribing HealthState attribute!\n", evt.errors
+            self._read_activity_message = "Error event on subscribing HealthState attribute!\n" + str(evt.errors)
+            self.devlogmsg("Error event on subscribing HealthState attribute.", 2)
 
 
 
@@ -222,6 +269,7 @@ class SubarrayNode(SKASubarray):
     # -----------------
     # Device Properties
     # -----------------
+
 
 
 
@@ -261,6 +309,11 @@ class SubarrayNode(SKASubarray):
         dtype='str',
     )
 
+    activityMessage = attribute(
+        dtype='str',
+        access=AttrWriteType.READ_WRITE,
+    )
+
 
 
     receptorIDList = attribute(
@@ -294,7 +347,9 @@ class SubarrayNode(SKASubarray):
         self._health_event_id = []
 
         self.set_state(DevState.OFF)                                                                                    # Set state = OFF
+        self._read_activity_message = "Subarray node is initialized successfully."
         self.set_status("SubarrayNode is initialized successfully.")
+        self.devlogmsg("SubarrayNode is initialized successfully.", 4)
 
         # PROTECTED REGION END #    //  SubarrayNode.init_device
 
@@ -322,6 +377,16 @@ class SubarrayNode(SKASubarray):
         return self._sb_id
         # PROTECTED REGION END #    //  SubarrayNode.sbID_read
 
+    def read_activityMessage(self):
+        # PROTECTED REGION ID(SubarrayNode.activityMessage_read) ENABLED START #
+        return self._read_activity_message
+        # PROTECTED REGION END #    //  SubarrayNode.activityMessage_read
+
+    def write_activityMessage(self, value):
+        # PROTECTED REGION ID(SubarrayNode.activityMessage_write) ENABLED START #
+        self._read_activity_message = value
+        # PROTECTED REGION END #    //  SubarrayNode.activityMessage_write
+
     def read_receptorIDList(self):
         # PROTECTED REGION ID(SubarrayNode.receptorIDList_read) ENABLED START #
         return self._receptor_id_list
@@ -342,7 +407,10 @@ class SubarrayNode(SKASubarray):
 
         try:
             print "Input Arguments for Configure command :-> " , argin
-            print "Group Definitions during Configure command :-> " , self._dish_leaf_node_group.get_device_list()
+            print "Group Definitions during Configure command :-> " ,  self._dish_leaf_node_group.get_device_list()
+
+            self._read_activity_message = "Input Arguments for Configure command :-> " + str(argin)
+            self._read_activity_message =  "Group Definitions during Configure command :-> " + str(self._dish_leaf_node_group.get_device_list())
 
             cmdData = PyTango.DeviceData()
             cmdData.insert(PyTango.DevVarStringArray, argin)
@@ -351,9 +419,14 @@ class SubarrayNode(SKASubarray):
             self._obs_state = 2                                                                                         # set obsState to READY when the configuration is completed
             self._scan_id = "1"
             self._sb_id = "1"
+            self.devlogmsg("Configure command invoked on Subarray", 4)
         except Exception as e:
             print "Exception in Configure command:"
             print e
+
+            self._read_activity_message = "Exception in Configure command: \n " + str(e)
+
+            self.devlogmsg("Exception occurred in Configure command.", 2)
 
         # PROTECTED REGION END #    //  SubarrayNode.Configure
 

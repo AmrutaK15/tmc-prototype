@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e920bb7a-0d62-4087-8e16-55e4daeefc33" name="Default Changelist" comment="" />
+    <list default="true" id="e920bb7a-0d62-4087-8e16-55e4daeefc33" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DishLeafNode.xmi" beforeDir="false" afterPath="$PROJECT_DIR$/DishLeafNode.xmi" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DishLeafNode/DishLeafNode.py" beforeDir="false" afterPath="$PROJECT_DIR$/DishLeafNode/DishLeafNode.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc_html/Attributes.html" beforeDir="false" afterPath="$PROJECT_DIR$/doc_html/Attributes.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc_html/FullDocument.html" beforeDir="false" afterPath="$PROJECT_DIR$/doc_html/FullDocument.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/DishLeafNode_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/DishLeafNode_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SubarrayNode/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../SubarrayNode/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SubarrayNode/SubarrayNode.xmi" beforeDir="false" afterPath="$PROJECT_DIR$/../SubarrayNode/SubarrayNode.xmi" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SubarrayNode/SubarrayNode/SubarrayNode.py" beforeDir="false" afterPath="$PROJECT_DIR$/../SubarrayNode/SubarrayNode/SubarrayNode.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SubarrayNode/doc_html/Attributes.html" beforeDir="false" afterPath="$PROJECT_DIR$/../SubarrayNode/doc_html/Attributes.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SubarrayNode/doc_html/FullDocument.html" beforeDir="false" afterPath="$PROJECT_DIR$/../SubarrayNode/doc_html/FullDocument.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../SubarrayNode/test/SubarrayNode_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/../SubarrayNode/test/SubarrayNode_test.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,22 +56,61 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="1474464475">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="2" />
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.3" value="1" />
+          <entry key="project.opened" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="py" value="1720" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Python" value="1720" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="py" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Python" value="3" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DishLeafNode/DishLeafNode.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-582">
-              <caret line="49" column="37" lean-forward="true" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
+            <state relative-caret-position="15">
+              <caret line="245" column="16" selection-start-line="245" selection-start-column="16" selection-end-line="245" selection-end-column="16" />
               <folding>
                 <element signature="e#229#243#0" expanded="true" />
+                <marker date="1543417306834" expanded="true" signature="1189:1199" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>print</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -71,11 +125,13 @@
     <option name="width" value="1855" />
     <option name="height" value="1084" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -96,7 +152,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -173,7 +228,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32985386" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3294979" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -229,6 +284,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///usr/lib/python2.7/traceback.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/tango/device_class.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="203">
+          <caret line="340" selection-start-line="340" selection-end-line="340" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file:///usr/local/lib/python2.7/dist-packages/PyTango.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -238,10 +303,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DishLeafNode/DishLeafNode.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-582">
-          <caret line="49" column="37" lean-forward="true" selection-start-line="49" selection-start-column="37" selection-end-line="49" selection-end-column="37" />
+        <state relative-caret-position="15">
+          <caret line="245" column="16" selection-start-line="245" selection-start-column="16" selection-end-line="245" selection-end-column="16" />
           <folding>
             <element signature="e#229#243#0" expanded="true" />
+            <marker date="1543417306834" expanded="true" signature="1189:1199" ph="..." />
           </folding>
         </state>
       </provider>

@@ -279,6 +279,12 @@ class SubarrayNodeDeviceTestCase(DeviceTestCase):
         self.device.sbID
         # PROTECTED REGION END #    //  SubarrayNode.test_sbID
 
+    def test_activityMessage(self):
+        """Test for activityMessage"""
+        # PROTECTED REGION ID(SubarrayNode.test_activityMessage) ENABLED START #
+        self.device.activityMessage
+        # PROTECTED REGION END #    //  SubarrayNode.test_activityMessage
+
     def test_assignedResources(self):
         """Test for assignedResources"""
         # PROTECTED REGION ID(SubarrayNode.test_assignedResources) ENABLED START #
