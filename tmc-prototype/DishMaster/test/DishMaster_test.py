@@ -238,15 +238,14 @@ class TestDishMaster(object):
     def test_elementLoggingLevel(self, tango_context):
         """Test for elementLoggingLevel"""
         # PROTECTED REGION ID(DishMaster.test_elementLoggingLevel) ENABLED START #
-
         #self.device.elementLoggingLevel
+        assert tango_context.device.elementLoggingLevel == 5
         # PROTECTED REGION END #    //  DishMaster.test_elementLoggingLevel
 
     def test_storageLoggingLevel(self, tango_context):
         """Test for storageLoggingLevel"""
         # PROTECTED REGION ID(DishMaster.test_storageLoggingLevel) ENABLED START #
         #self.device.storageLoggingLevel
-        assert tango_context.device.elementLoggingLevel == 5
         # PROTECTED REGION END #    //  DishMaster.test_storageLoggingLevel
 
     def test_healthState(self, tango_context):

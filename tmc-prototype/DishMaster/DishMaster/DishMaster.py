@@ -94,11 +94,13 @@ class DishMaster(SKAMaster):
 
         for position in range(0,temp):
             self.set_status("Dish is pointing towards the desired coordinates.")
+            self.devlogmsg("Dish is pointing towards the desired coordinates.", 4)
             self._pointing_state = 1
             time.sleep(2)
             if (self._achieved_pointing[1] == self._desired_pointing[1]) and (self._achieved_pointing[2] == self._desired_pointing[2]):
                 self._pointing_state = 0
                 self.set_status("Dish has pointed towards the desired coordinates.")
+                self.devlogmsg("Dish has pointed towards the desired coordinates.", 4)
                 pass
             else:
                 self._achieved_pointing[argin[0]] = self._achieved_pointing[argin[0]] + 1
@@ -125,6 +127,8 @@ class DishMaster(SKAMaster):
             if (self._achieved_pointing[1] == self._desired_pointing[1]) and (self._achieved_pointing[2] == self._desired_pointing[2]):
                 self._pointing_state = 0
                 self.set_status("Dish has pointed towards the desired coordinates.")
+                self.devlogmsg("Dish has pointed towards the desired coordinates.", 4)
+
                 pass
             else:
                 self._achieved_pointing[argin[0]] = self._achieved_pointing[argin[0]] - 1
@@ -140,7 +144,9 @@ class DishMaster(SKAMaster):
                 self._dish_mode = 6                         # set dishMode to STOW
                 self._health_state = 0                      # Set healthState to OK
                 self.set_status("Dish is stowed successfully.")
+                self.devlogmsg("Dish is stowed successfully.", 4)
                 break
+
 
     # PROTECTED REGION END #    //  DishMaster.class_variable
 
@@ -263,18 +269,18 @@ class DishMaster(SKAMaster):
             self._admin_mode = 0                        # Set adminMode to ONLINE
             self._dish_mode = 3                         # Set dishMode to STANDBY-LP Mode
             self._pointing_state = 0                    # Set pointingState to READY Mode
-            self._configured_band = 1
-            self._band1_sampler_frequency = 10           # Set Band 1 Sampler Frequency to 0
-            self._band2_sampler_frequency = 10           # Set Band 2 Sampler Frequency to 0
-            self._band3_sampler_frequency = 10           # Set Band 3 Sampler Frequency to 0
-            self._band4_sampler_frequency = 10           # Set Band 4 Sampler Frequency to 0
-            self._band5a_sampler_frequency =10          # Set Band 5a Sampler Frequency to 0
-            self._band5b_sampler_frequency =10          # Set Band 5b Sampler Frequency to 0
+            self._band1_sampler_frequency = 0           # Set Band 1 Sampler Frequency to 0
+            self._band2_sampler_frequency = 0           # Set Band 2 Sampler Frequency to 0
+            self._band3_sampler_frequency = 0           # Set Band 3 Sampler Frequency to 0
+            self._band4_sampler_frequency = 0           # Set Band 4 Sampler Frequency to 0
+            self._band5a_sampler_frequency = 0          # Set Band 5a Sampler Frequency to 0
+            self._band5b_sampler_frequency = 0          # Set Band 5b Sampler Frequency to 0
             self._capturing = False
             self._desired_pointing = [0,20,40]
             self._achieved_pointing = [0,0,0]
             self._elevation_difference = 0
             self._azimuth_difference = 0
+            self._configured_band = 1
             self._wind_speed = 5
             self.set_state(PyTango.DevState.STANDBY)    # Set STATE to STANDBY
 
@@ -288,22 +294,13 @@ class DishMaster(SKAMaster):
             self._scan_delta_t = 0
 
             self.set_status("Dish Master is initialised successfully.")
-
-            # Initialise Logging levels
-            # print logger
-            # logger.info("TurnOn Sending info")
-            self._storage_logging_level = 5
-            self._element_logging_level = 5
-            self._central_logging_level = 5
-            ## TO BE REMOVED START ##
-            # self.logger.setLevel(logging.DEBUG)
-            ## TO BE REMOVED END ##
+            self.devlogmsg("Dish Master is initialised successfully.", 4)
 
         except Exception as e:
             print "Unexpected error in initialising properties and attributes on Dish", self.ReceptorNumber
+            self.devlogmsg("Unexpected error in initialising properties and attributes on Dish", 2)
             print "Error message is: \n", e
 
-        pass
         # PROTECTED REGION END #    //  DishMaster.always_executed_hook
 
     def always_executed_hook(self):
@@ -433,6 +430,7 @@ class DishMaster(SKAMaster):
 
         except Exception as e:
             print "Unexpected error in executing SetStowMode Command on Dish", self.ReceptorNumber
+            self.devlogmsg("Unexpected error in executing SetStowMode Command on Dish", 2)
             print "Error message is: \n", e
 
         # while True:
@@ -463,9 +461,11 @@ class DishMaster(SKAMaster):
             self.set_state(PyTango.DevState.STANDBY)     # Set STATE to STANDBY
             self._dish_mode = 3                          # set dishMode to STANDBYLP
             self.set_status("Dish is in STANDBY-LP mode.")
+            self.devlogmsg("Dish is in STANDBY-LP mode.", 4)
 
         except Exception as e:
             print "Unexpected error in executing SetStandbyLPMode Command on Dish", self.ReceptorNumber
+            self.devlogmsg("Unexpected error in executing SetStandbyLPMode Command on Dish", 2)
             print "Error message is: \n", e
 
         pass
@@ -482,11 +482,11 @@ class DishMaster(SKAMaster):
             self.set_state(PyTango.DevState.DISABLE)    # Set STATE to DISABLE
             self._dish_mode = 5                         # set dishMode to MAINTENANCE
             self.set_status("Dish is in MAINTENANCE mode.")
-            self.devlogmsg("Set dish mode to Maintenance", 5)
+            self.devlogmsg("Dish is in MAINTENANCE mode.", 4)
 
         except Exception as e:
-            self.devlogmsg("Unexpected error: " + e, 5)
             print "Unexpected error in executing SetMaintenanceMode Command on Dish", self.ReceptorNumber
+            self.devlogmsg("Unexpected error in executing SetMaintenanceMode Command on Dish", 2)
             print "Error message is: \n", e
 
         pass
@@ -508,8 +508,10 @@ class DishMaster(SKAMaster):
             self.set_state(PyTango.DevState.ON)         # Set STATE to ON
             self._dish_mode = 8                         # set dishMode to OPERATE
             self.set_status("Dish is in OPERATE mode.")
+            self.devlogmsg("Dish is in OPERATE mode", 4)
         except Exception as e:
             print "Unexpected error in executing SetOperateMode Command on Dish", self.ReceptorNumber
+            self.devlogmsg("Unexpected error in executing SetOperateMode Command on Dish", 2)
             print "Error message is: \n", e
         pass
         # PROTECTED REGION END #    //  DishMaster.SetOperateMode
@@ -534,10 +536,13 @@ class DishMaster(SKAMaster):
                 self._scan_delta_t = self._scan_execution_time - self._current_time
                 t1 = Timer(self._scan_delta_t, self.StartCapture, [argin])
                 t1.start()
+                self.devlogmsg("Scan in progress", 4)
             else:
                 self.set_status("Dish Pointing State is not READY")
+                self.devlogmsg("Dish Pointing State is not READY hence scan could not be started", 4)
         except Exception as e:
             print "Unexpected error in executing Scan Command on Dish", self.ReceptorNumber
+            self.devlogmsg("Unexpected error in executing Scan Command on Dish", 2)
             print "Error message is: \n", e
 
         pass
@@ -560,8 +565,10 @@ class DishMaster(SKAMaster):
             self._capturing = True                      # set Capturing to True
             self._pointing_state = 3                    # set pointingState to SCAN
             self.set_status("Data Capturing started.")
+            self.devlogmsg("Data Capturing started", 4)
         except Exception as e:
             print "Unexpected error in executing StartCapture Command on Dish", self.ReceptorNumber
+            self.devlogmsg("Unexpected error in executing StartCapture Command on Dish", 2)
             print "Error message is: \n", e
         pass
         # PROTECTED REGION END #    //  DishMaster.StartCapture
@@ -583,8 +590,10 @@ class DishMaster(SKAMaster):
             self._capturing = False                     # set Capturing to FALSE
             self._pointing_state = 0                    # set pointingState to READY
             self.set_status("Data Capturing stopped.")
+            self.devlogmsg("Data Capturing stopped.", 4)
         except Exception as e:
             print "Unexpected error in executing StopCapture Command on Dish", self.ReceptorNumber
+            self.devlogmsg("Unexpected error in executing StopCapture Command on Dish", 2)
             print "Error message is: \n", e
         pass
         # PROTECTED REGION END #    //  DishMaster.StopCapture
@@ -604,8 +613,10 @@ class DishMaster(SKAMaster):
             self.set_state(PyTango.DevState.STANDBY)    # set STATE to STANDBY
             self._dish_mode = 4                         # set dishMode to STANDBY-FP
             self.set_status("Dish is in STANDBY-FP mode.")
+            self.devlogmsg("Dish is in STANDBY-FP mode", 4)
         except Exception as e:
             print "Unexpected error in executing SetStandbyFPMode Command on Dish", self.ReceptorNumber
+            self.devlogmsg("Unexpected error in executing SetStandbyFPMode Command on Dish", 2)
             print "Error message is: \n", e
         pass
         # PROTECTED REGION END #    //  DishMaster.SetStandbyFPMode
@@ -620,7 +631,7 @@ class DishMaster(SKAMaster):
     doc_in="Timestamp at which command should be executed.", 
     )
     @DebugIt()
-    def Slew(self, argin):
+    def Slew(self, argin=0):
         # PROTECTED REGION ID(DishMaster.Slew) ENABLED START #
         try:
             # Execute POINT command at given timestamp
@@ -629,8 +640,10 @@ class DishMaster(SKAMaster):
             self._point_delta_t = self._point_execution_time - self._current_time
             t = Timer(self._point_delta_t, self.point)
             t.start()
+            self.devlogmsg("Dish is slewing ", 4)
         except Exception as e:
             print "Unexpected error in executing Slew Command on Dish", self.ReceptorNumber
+            self.devlogmsg("Unexpected error in executing Slew Command on Dish", 2)
             print "Error message is: \n", e
         pass
         # PROTECTED REGION END #    //  DishMaster.Slew
