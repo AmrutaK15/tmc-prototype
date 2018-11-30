@@ -48,18 +48,24 @@ class CentralNode(SKABaseDevice):
                     self._subarray2_health_state = self._subarray_health_state
                 else:
                     print "Event from the Unknown Subarray device!"
+                    self._read_activity_message = "Event from the Unknown Subarray device!"
 
                 self.subarrayHealthStateMap[evt.device] = self._subarray_health_state
                 if (self._subarray_health_state == 0):
                     print "Health state of " + str(evt.device) + " :-> OK"
+                    self._read_activity_message = "Health state of " + str(evt.device) + " :-> OK"
                 elif (self._subarray_health_state == 1):
                     print "Health state of " + str(evt.device) + " :-> DEGRADED"
+                    self._read_activity_message = "Health state of " + str(evt.device) + " :-> DEGRADED"
                 elif (self._subarray_health_state == 2):
                     print "Health state of " + str(evt.device) + " :-> FAILED"
+                    self._read_activity_message = "Health state of " + str(evt.device) + " :-> FAILED"
                 elif (self._subarray_health_state == 3):
                     print "Health state of " + str(evt.device) + " :-> UNKNOWN"
+                    self._read_activity_message = "Health state of " + str(evt.device) + " :-> UNKNOWN"
                 else:
                     print "Subarray Health state event returned unknown value! \n", evt
+                    self._read_activity_message = "Subarray Health state event returned unknown value! \n" + str(evt)
                 # Aggregated Health State
                 failed = 0
                 degraded = 0
@@ -93,9 +99,13 @@ class CentralNode(SKABaseDevice):
                     self._telescope_health_state = 3
 
             except Exception as e:
-                print "Unexpected error in while aggregating Health state!\n", e
+                print "Unexpected error while aggregating Health state!\n", e
+                self._read_activity_message = "Unexpected error while aggregating Health state!\n" + str(e)
+                self.devlogmsg("Unexpected error while aggregating Health state!", 2)
         else:
             print "Error event on subscribing Subarray HealthState!\n", evt
+            self._read_activity_message = "Error event on subscribing Subarray HealthState!\n" + str(evt)
+            self.devlogmsg("Error event on subscribing Subarray HealthState!", 2)
     '''
     class subarrayStateCallback (utils.EventCallback):
         def push_event(self, evt):
@@ -233,6 +243,11 @@ class CentralNode(SKABaseDevice):
         enum_labels=["OK", "DEGRADED", "FAILED", "UNKNOWN", ],
     )
 
+    activityMessage = attribute(
+        dtype='str',
+        access=AttrWriteType.READ_WRITE,
+    )
+
     # ---------------
     # General methods
     # ---------------
@@ -261,7 +276,10 @@ class CentralNode(SKABaseDevice):
             self._leaf_device_proxy = []
 
         except Exception as e:
-            print "Unexpected error in executing initialising properties and attributes on Central Node device.",
+            print "Unexpected error on initialising properties and attributes on Central Node device."
+            self._read_activity_message = "Unexpected error on initialising properties and attributes on Central Node device."
+            self.devlogmsg("Unexpected error in initialising properties and attributes on Central Node device.", 2)
+            self._read_activity_message = "Error message is: \n" + str(e)
             print "Error message is: \n", e
 
         #  Get Dish Leaf Node devices List
@@ -273,6 +291,9 @@ class CentralNode(SKABaseDevice):
 
         except Exception as e:
             print "Unexpected error in reading exported Dish Leaf Node device names from database \n", e
+            self._read_activity_message = "Unexpected error in reading exported Dish Leaf Node device names from database \n" + str(e)
+            self.devlogmsg(
+                "Unexpected error in reading exported Dish Leaf Node device names from database \n", 2)
 
         # Create proxies of Dish Leaf Node devices
 
@@ -282,7 +303,11 @@ class CentralNode(SKABaseDevice):
 
             except Exception as e:
                 print "Unexpected error in creating proxy of the device ", self._dish_leaf_node_devices[name]
+                self._read_activity_message = "Unexpected error in creating proxy of the device " +  str(self._dish_leaf_node_devices[name])
                 print "Error message is: \n", e
+                self._read_activity_message = "Error message is: \n" + str(e)
+                self.devlogmsg(
+                    "Unexpected error in creating proxy of the device ", 2)
         print self._leaf_device_proxy
 
         '''
@@ -303,7 +328,11 @@ class CentralNode(SKABaseDevice):
 
             except Exception as e:
                 print "Exception occurred while subscribing to attributes of", self.TMMidSubarrayNodes[subarray]
+                self._read_activity_message = "Exception occurred while subscribing to attributes of" + str(self.TMMidSubarrayNodes[subarray])
+                self.devlogmsg(
+                    "Exception occurred while subscribing to attributes of Subarray", 2)
                 print "error message is: " , e
+                self._read_activity_message = "Error message is: " + str(e)
 
 
         # PROTECTED REGION END #    //  CentralNode.init_device
@@ -348,6 +377,16 @@ class CentralNode(SKABaseDevice):
         return self._subarray2_health_state
         # PROTECTED REGION END #    //  CentralNode.subarray2HealthState_read
 
+    def read_activityMessage(self):
+        # PROTECTED REGION ID(CentralNode.activityMessage_read) ENABLED START #
+        return self._read_activity_message
+        # PROTECTED REGION END #    //  CentralNode.activityMessage_read
+
+    def write_activityMessage(self, value):
+        # PROTECTED REGION ID(CentralNode.activityMessage_write) ENABLED START #
+        self._read_activity_message = value
+        # PROTECTED REGION END #    //  CentralNode.activityMessage_write
+
 
     # --------
     # Commands
@@ -360,6 +399,9 @@ class CentralNode(SKABaseDevice):
     @DebugIt()
     def StowAntennas(self, argin):
         # PROTECTED REGION ID(CentralNode.StowAntennas) ENABLED START #
+        self.devlogmsg("STOW command invoked from Central node on the requested dishes", 4)
+        self._read_activity_message = "STOW command invoked from Central node on the requested dishes"
+
         for i in range(0,len(argin)):
             device_name = self.DishLeafNodePrefix + argin[i]
 
@@ -368,8 +410,11 @@ class CentralNode(SKABaseDevice):
                 device_proxy.command_inout("SetStowMode")
             except Exception as e:
                 print "Unexpected error in executing STOW command on ", device_name
+                self._read_activity_message = "Unexpected error in executing STOW command on " + str(device_name)
                 print "Error message is: \n", e
-        pass
+                self._read_activity_message = "Error message is: \n" + str(e)
+                self.devlogmsg("Unexpected error in executing STOW command!", 2)
+
         # PROTECTED REGION END #    //  CentralNode.StowAntennas
 
     @command(
@@ -377,13 +422,19 @@ class CentralNode(SKABaseDevice):
     @DebugIt()
     def StandByTelescope(self):
         # PROTECTED REGION ID(CentralNode.StandByTelescope) ENABLED START #
+        self.devlogmsg("StandByTelescope command invoked from Central node", 4)
+        self._read_activity_message = "StandByTelescope command invoked from Central node"
+
         for name in range (0,len(self._dish_leaf_node_devices)):
             try:
                 self._leaf_device_proxy[name].command_inout("SetStandbyLPMode")
             except Exception as e:
                 print "Unexpected error in setting Standby mode on ", self._dish_leaf_node_devices[name]
+                self._read_activity_message = "Unexpected error in setting Standby mode on " + str(self._dish_leaf_node_devices[name])
                 print "Error message is: \n", e
-        pass
+                self._read_activity_message = "Error message is: \n" + str(e)
+                self.devlogmsg("Unexpected error in executing StandByTelescope command!", 2)
+
         # PROTECTED REGION END #    //  CentralNode.StandByTelescope
 
     @command(
@@ -391,15 +442,19 @@ class CentralNode(SKABaseDevice):
     @DebugIt()
     def StartUpTelescope(self):
         # PROTECTED REGION ID(CentralNode.StartUpTelescope) ENABLED START #
+        self.devlogmsg("StartUpTelescope command invoked from Central node", 4)
+        self._read_activity_message = "StartUpTelescope command invoked from Central node"
+
         for name in range (0,len(self._dish_leaf_node_devices)):
             try:
                 print self._leaf_device_proxy
                 self._leaf_device_proxy[name].command_inout("SetOperateMode")
             except Exception as e:
                 print "Unexpected error in StartUp of ", self._dish_leaf_node_devices[name]
+                self._read_activity_message = "Unexpected error in StartUp of " + str(self._dish_leaf_node_devices[name])
                 print "Error message is: \n", e
-
-        pass
+                self._read_activity_message = "Error message is: \n" + str(e)
+                self.devlogmsg("Unexpected error in executing StartUpTelescope command!", 2)
         # PROTECTED REGION END #    //  CentralNode.StartUpTelescope
 
 # ----------

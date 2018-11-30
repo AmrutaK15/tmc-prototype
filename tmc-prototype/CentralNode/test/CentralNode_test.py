@@ -189,6 +189,12 @@ class CentralNodeDeviceTestCase(DeviceTestCase):
         self.device.subarray2HealthState
         # PROTECTED REGION END #    //  CentralNode.test_subarray2HealthState
 
+    def test_activityMessage(self):
+        """Test for activityMessage"""
+        # PROTECTED REGION ID(CentralNode.test_activityMessage) ENABLED START #
+        self.device.activityMessage
+        # PROTECTED REGION END #    //  CentralNode.test_activityMessage
+
 
 # Main execution
 if __name__ == "__main__":
